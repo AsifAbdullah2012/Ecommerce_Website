@@ -3,6 +3,7 @@ const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./schema/typeDefs");
 const resolvers = require("./schema/resolvers");
 require("dotenv").config();
+const path = require("path");
 
 const startServer = async () => {
   const app = express();
@@ -24,6 +25,9 @@ const startServer = async () => {
   });
   await server.start();
   server.applyMiddleware({ app });
+
+  // Serve static files from the "uploads" folder
+  app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
   app.listen({ port: 4000 }, () =>
     console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
