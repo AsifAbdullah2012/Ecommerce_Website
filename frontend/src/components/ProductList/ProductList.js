@@ -34,10 +34,6 @@ const ProductList = () => {
 
   return (
     <Box p={4}>
-      <Typography variant="h4" gutterBottom>
-        Product List
-      </Typography>
-
       <Grid container spacing={4}>
         {data.products.map((product) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
