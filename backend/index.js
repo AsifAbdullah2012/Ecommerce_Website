@@ -6,7 +6,22 @@ require("dotenv").config();
 
 const startServer = async () => {
   const app = express();
-  const server = new ApolloServer({ typeDefs, resolvers });
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req }) => {
+      const token = req.headers.authorization || "";
+      if (token) {
+        try {
+          const user = jwt.verify(token, "your-secret-key");
+          return { user };
+        } catch (err) {
+          console.error("Invalid token");
+        }
+      }
+      return {};
+    },
+  });
   await server.start();
   server.applyMiddleware({ app });
 
