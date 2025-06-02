@@ -1,13 +1,20 @@
 import React from "react";
 import ProductList from "./components/ProductList/ProductList";
 import HomePage from "./pages/HomePage";
-
-function App() {
+import Login from "./components/LoginForm/Login";
+import Register from "./components/RegistrationForm/Register";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Footer from "./components/MainPage/Footer";
+const App = () => {
   return (
-    <div>
-      <HomePage />
-    </div>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </Router>
+    </>
   );
-}
+};
 
 export default App;
