@@ -1,6 +1,4 @@
-// src/components/SearchBar/SearchBar.jsx
 import React, { useState } from "react";
-import { Box, InputBase, IconButton, Paper } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 
 const SearchBar = ({ onSearch }) => {
@@ -11,30 +9,28 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <Paper
-      component="form"
+    <form
       onSubmit={(e) => {
         e.preventDefault();
         handleSearch();
       }}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        width: { xs: "100%", sm: 400, md: 600 },
-        borderRadius: 3,
-        overflow: "hidden",
-        bgcolor: "#fff",
-        boxShadow: 1,
-      }}
+      className="flex items-center w-full max-w-xl bg-white rounded-lg shadow-md overflow-hidden"
     >
-      <InputBase
+      <input
+        type="text"
         placeholder="Search Amazon ..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        sx={{ ml: 2, flex: 1 }}
+        className="flex-1 px-4 py-2 focus:outline-none"
       />
-      <FaSearch style={{ padding: "8px" }} />
-    </Paper>
+      <button
+        type="submit"
+        className="p-3 text-gray-600 hover:text-gray-800"
+        aria-label="Search"
+      >
+        <FaSearch />
+      </button>
+    </form>
   );
 };
 

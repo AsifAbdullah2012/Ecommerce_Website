@@ -1,29 +1,16 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import React from "react";
 
 const HeroBanner = () => {
   return (
-    <Box
-      sx={{
-        bgcolor: "orange",
-        p: 4,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      <Box>
-        <Typography variant="h4" fontWeight="bold">
+    <div className="bg-orange-500 p-8 flex items-center justify-between ">
+      <div>
+        <h1 className="text-3xl font-bold text-white">
           Vom Feld auf den Teller in 7 Stunden
-        </Typography>
-        <Typography variant="body1">Knuspr - Frisch geliefert!</Typography>
-      </Box>
-      <img
-        src="/images/hero.jpg"
-        alt="Banner"
-        style={{ width: "200px", borderRadius: "8px" }}
-      />
-    </Box>
+        </h1>
+        <p className="text-white text-lg">Knuspr - Frisch geliefert!</p>
+      </div>
+      <img src="/images/hero.jpg" alt="Banner" className="w-52 rounded-md" />
+    </div>
   );
 };
 

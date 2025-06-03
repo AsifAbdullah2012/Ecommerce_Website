@@ -1,10 +1,6 @@
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
-import SearchBar from "./SearchBar";
-import { Box } from "@mui/material";
+import React from "react";
 import { FiShoppingCart } from "react-icons/fi";
+import SearchBar from "./SearchBar";
 import Register from "../RegistrationForm/Register";
 import Login from "../LoginForm/Login";
 
@@ -13,24 +9,23 @@ const Navbar = () => {
     console.log("Searching for:", query);
     // Implement search logic here
   };
+
   return (
-    <>
-      <AppBar position="static" sx={{ bgcolor: "#232F3E" }}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1, color: "white" }}>
-            Amazon Clone
-          </Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <SearchBar onSearch={handleSearch} />
-          </Box>
-          <Box sx={{ ml: 2, display: "flex", alignItems: "center" }}>
-            <FiShoppingCart size={24} color="white" />
-          </Box>
+    <nav className="bg-[#232F3E] px-4 py-3">
+      <div className="container mx-auto flex items-center justify-between">
+        <h1 className="text-white text-lg font-semibold">Amazon Clone</h1>
+
+        <div className="flex-1 mx-4">
+          <SearchBar onSearch={handleSearch} />
+        </div>
+
+        <div className="flex items-center gap-4">
+          <FiShoppingCart size={24} color="white" />
           <Register />
           <Login />
-        </Toolbar>
-      </AppBar>
-    </>
+        </div>
+      </div>
+    </nav>
   );
 };
 

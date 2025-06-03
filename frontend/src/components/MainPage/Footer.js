@@ -1,22 +1,13 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+// src/components/Footer2.jsx
+import { faHourglass1 } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 
-const Footer = () => {
+const Footer2 = () => {
   return (
-    <Box
-      sx={{
-        bgcolor: "#232F3E",
-        color: "white",
-        p: 2,
-        mt: 4,
-        textAlign: "center",
-      }}
-    >
-      <Typography variant="body2">
-        &copy; 2025 Amazon Clone. All rights reserved.
-      </Typography>
-    </Box>
+    <footer className="bg-gray-900 text-white p-4 text-center">
+      <p className="text-sm">&copy; 2025 MyShop. All rights reserved.</p>
+    </footer>
   );
 };
 
-export default Footer;
+export default Footer2;

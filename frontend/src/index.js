@@ -1,18 +1,21 @@
-import React, { Fragment } from "react";
-
+import React from "react";
+import { createRoot } from "react-dom/client";
 import App from "./App";
 import { ApolloProvider } from "@apollo/client";
 import client from "./graphql/client";
 import { BrowserRouter } from "react-router-dom";
-import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
+import "./index.css";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const container = document.getElementById("root");
+const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>
 );

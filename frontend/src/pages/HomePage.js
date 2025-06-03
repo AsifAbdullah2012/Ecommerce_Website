@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 
 import Navbar from "../components/Navbar/Navbar";
 import HeroBanner from "../components/MainPage/HeroBanner";
-import Footer from "../components/MainPage/Footer";
+import Footer2 from "../components/MainPage/Footer";
 import ProductList from "../components/ProductList/ProductList";
 
 const HomePage = () => {
@@ -11,7 +11,7 @@ const HomePage = () => {
       <Navbar />
       <HeroBanner />
       <ProductList />
-      <Footer />
+      <Footer2 />
     </>
   );
 };
