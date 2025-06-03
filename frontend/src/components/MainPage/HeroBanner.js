@@ -9,7 +9,6 @@ const HeroBanner = () => {
         </h1>
         <p className="text-white text-lg">Knuspr - Frisch geliefert!</p>
       </div>
-      <img src="/images/hero.jpg" alt="Banner" className="w-52 rounded-md" />
     </div>
   );
 };
