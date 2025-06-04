@@ -1,8 +1,10 @@
 import React from "react";
 import { FiSearch, FiShoppingCart, FiMenu } from "react-icons/fi";
 import { FaFlag } from "react-icons/fa";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 
 const Navbar = () => {
+  const user = useCurrentUser();
   return (
     <header className="bg-[#131921] text-white text-sm font-medium">
       {/* Top Row */}
@@ -47,10 +49,17 @@ const Navbar = () => {
             <FaFlag className="text-lg" />
             <span>DE</span>
           </div>
-          <div className="flex flex-col cursor-pointer hover:text-yellow-400 transition">
-            <span className="text-xs">Hallo, anmelden</span>
-            <span className="font-bold">Konto und Listen</span>
-          </div>
+          {user ? (
+            <div className="flex flex-col cursor-pointer hover:text-yellow-400 transition">
+              <span className="text-xs">Hallo, {user.name || user.email}</span>
+              <span className="font-bold">Mein Konto</span>
+            </div>
+          ) : (
+            <div className="flex flex-col cursor-pointer hover:text-yellow-400 transition">
+              <span className="text-xs">Hallo, anmelden</span>
+              <span className="font-bold">Konto und Listen</span>
+            </div>
+          )}
           <div className="flex flex-col cursor-pointer hover:text-yellow-400 transition">
             <span className="text-xs">Warenrücksendungen</span>
             <span className="font-bold">und Bestellungen</span>

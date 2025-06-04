@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from "../../graphql/mutations";
+const { GraphQLError } = require("graphql");
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -101,9 +102,14 @@ const Register = () => {
           >
             {loading ? "Registrieren..." : "Weiter"}
           </button>
-
           {error && (
-            <p className="text-red-600 text-sm mt-2">Error: {error.message}</p>
+            <p className="text-red-600 text-sm mt-2">
+              {error.graphQLErrors.some(
+                (e) => e.extensions?.code === "EMAIL_ALREADY_EXISTS"
+              )
+                ? "Diese E-Mail-Adresse ist bereits registriert. Bitte melde dich an."
+                : `Fehler: ${error.message}`}
+            </p>
           )}
           {data && (
             <p className="text-green-600 text-sm mt-2">
