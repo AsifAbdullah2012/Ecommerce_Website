@@ -9,7 +9,17 @@ const resolvers = {
     // this is where all the products will be shown
     products: async () => {
       const result = await pool.query("SELECT * FROM products");
-      console.log(result.rows);
+      //console.log(result.rows);
+      return result.rows;
+    },
+    getVoucher: async (_, { id }) => {
+      const result = await pool.query("SELECT * FROM vouchers WHERE id = $1", [
+        id,
+      ]);
+      return result.rows[0];
+    },
+    listVouchers: async () => {
+      const result = await pool.query("SELECT * FROM vouchers");
       return result.rows;
     },
     // there are two roles 1. Admin 2. customer
@@ -27,13 +37,29 @@ const resolvers = {
   },
   Mutation: {
     register: async (parent, { name, email, password }) => {
-      const hash = password;
-      const usr_role = "customer";
-      const result = await pool.query(
-        "INSERT INTO users (name, email, password_hash) VALUES ($1, $2, $3) RETURNING id, name, email, role, created_at",
-        [name, email, hash]
-      );
-      return result.rows[0];
+      try {
+        const hash = password; // Consider hashing this in future!
+        const usr_role = "customer";
+
+        const result = await pool.query(
+          "INSERT INTO users (name, email, password_hash) VALUES ($1, $2, $3) RETURNING id, name, email, role, created_at",
+          [name, email, hash]
+        );
+
+        return result.rows[0];
+      } catch (err) {
+        console.log("GraphQL Error:", err);
+        if (err.code === "23505") {
+          // PostgreSQL unique violation error code
+          throw new GraphQLError(
+            "Diese E-Mail-Adresse ist bereits registriert. Bitte melde dich an.",
+            { extensions: { code: "EMAIL_ALREADY_EXISTS" } }
+          );
+        }
+        throw new GraphQLError("Ein unerwarteter Fehler ist aufgetreten.", {
+          extensions: { code: "INTERNAL_SERVER_ERROR" },
+        });
+      }
     },
 
     login: async (parent, { email, password }) => {
@@ -47,7 +73,7 @@ const resolvers = {
       if (!valid) throw new Error("Invalid password");
 
       const token = jwt.sign(
-        { id: user.id, email: user.email, role: user.role },
+        { id: user.id, nam: user.name, email: user.email, role: user.role },
         JWT_SECRET,
         { expiresIn: "7d" }
       );
