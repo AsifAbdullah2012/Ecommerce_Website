@@ -1,15 +1,32 @@
-import React from "react";
 import { FiSearch, FiShoppingCart, FiMenu } from "react-icons/fi";
 import { FaFlag } from "react-icons/fa";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
+import { GET_USER_INFO } from "../../graphql/quries";
+import { useLazyQuery } from "@apollo/client";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const user = useCurrentUser();
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const hideTimeoutRef = useRef(null);
+  //TODO I have to call another database
+
+  const [fetchUserInfo, { data, loading, error }] = useLazyQuery(GET_USER_INFO);
+  /**/
+  useEffect(() => {
+    if (user && user.id) {
+      fetchUserInfo({ variables: { id: user.id } });
+    }
+  }, [user?.id]);
+
+  //if (!user) return <p>Not logged in</p>;
+  if (loading) return <p>Loading user profile...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  const deliveryAddress =
+    data?.getUserInfo?.delivery_address || "Lieferung an Berlin 12627";
 
   const handleMouseEnter = () => {
     if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
@@ -27,7 +44,10 @@ const Navbar = () => {
       <div className="flex items-center justify-between px-4 py-2">
         {/* Left: Logo and Location */}
         <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold text-orange-500 cursor-pointer hover:text-orange-300 transition">
+          <h1
+            className="text-2xl font-bold text-orange-500 cursor-pointer hover:text-orange-300 transition"
+            onClick={() => navigate("/")}
+          >
             amazon<span className="text-white">.de</span>
           </h1>
           <div className="flex items-center gap-1 cursor-pointer hover:text-yellow-400 transition">
@@ -38,7 +58,7 @@ const Navbar = () => {
             >
               <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5z" />
             </svg>
-            <span>Lieferung an Berlin 12627</span>
+            <span>{deliveryAddress}</span>
           </div>
         </div>
 

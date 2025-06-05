@@ -29,3 +29,14 @@ export const GET_VOUCHERS = gql`
     }
   }
 `;
+
+export const GET_USER_INFO = gql`
+  query GetUserInfo($id: ID!) {
+    getUserInfo(id: $id) {
+      id
+      phone_number
+      address
+      delivery_address
+    }
+  }
+`;
