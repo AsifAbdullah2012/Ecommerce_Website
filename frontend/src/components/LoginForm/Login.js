@@ -116,7 +116,7 @@ const Login = () => {
         <div className="mt-4 border-t pt-4">
           <p className="text-sm">
             Neu bei Amazon?{" "}
-            <a href="/register" className="text-blue-600 hover:underline">
+            <a href="/registration" className="text-blue-600 hover:underline">
               Jetzt registrieren
             </a>
           </p>

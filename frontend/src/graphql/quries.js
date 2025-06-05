@@ -11,3 +11,21 @@ export const GET_PRODUCTS = gql`
     }
   }
 `;
+
+export const GET_VOUCHERS = gql`
+  query {
+    listVouchers {
+      id
+      code
+      description
+      discount_type
+      discount_value
+      min_order_value
+      max_uses
+      used_count
+      start_date
+      expiry_date
+      is_active
+    }
+  }
+`;

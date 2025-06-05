@@ -2,9 +2,25 @@ import React from "react";
 import { FiSearch, FiShoppingCart, FiMenu } from "react-icons/fi";
 import { FaFlag } from "react-icons/fa";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
 
 const Navbar = () => {
   const user = useCurrentUser();
+  const navigate = useNavigate();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const hideTimeoutRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    setDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    hideTimeoutRef.current = setTimeout(() => {
+      setDropdownOpen(false);
+    }, 300); // <-- Adjust delay here (ms)
+  };
   return (
     <header className="bg-[#131921] text-white text-sm font-medium">
       {/* Top Row */}
@@ -50,12 +66,46 @@ const Navbar = () => {
             <span>DE</span>
           </div>
           {user ? (
-            <div className="flex flex-col cursor-pointer hover:text-yellow-400 transition">
-              <span className="text-xs">Hallo, {user.name || user.email}</span>
-              <span className="font-bold">Mein Konto</span>
+            <div
+              className="relative text-left"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="flex flex-col cursor-pointer hover:text-yellow-400 transition">
+                <span className="text-xs">
+                  Hallo, {user.name || user.email}
+                </span>
+                <span className="font-bold">Mein Konto</span>
+              </div>
+
+              {dropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 bg-white text-black shadow-md rounded-md w-full z-50">
+                  <button
+                    onClick={() => navigate("/")}
+                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                  >
+                    Mein Konto
+                  </button>
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("user");
+                      sessionStorage.removeItem("token");
+                      sessionStorage.removeItem("user");
+                      navigate("/login");
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600"
+                  >
+                    Abmelden
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
-            <div className="flex flex-col cursor-pointer hover:text-yellow-400 transition">
+            <div
+              className="flex flex-col cursor-pointer hover:text-yellow-400 transition"
+              onClick={() => navigate("/login")}
+            >
               <span className="text-xs">Hallo, anmelden</span>
               <span className="font-bold">Konto und Listen</span>
             </div>
