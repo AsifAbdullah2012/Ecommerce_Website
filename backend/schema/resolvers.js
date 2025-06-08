@@ -1,6 +1,7 @@
 const pool = require("../db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { sequelize } = require("./db");
 
 const JWT_SECRET = "ALLLIFEMATTERS";
 
@@ -18,6 +19,15 @@ const resolvers = {
       ]);
       return result.rows[0];
     },
+    getUserInfo: async (_, { id }) => {
+      const result = await pool.query(
+        "SELECT * FROM user_profiles WHERE user_id = $1",
+        [id]
+      );
+
+      return result.rows[0];
+    },
+
     listVouchers: async () => {
       const result = await pool.query("SELECT * FROM vouchers");
       return result.rows;
@@ -33,6 +43,21 @@ const resolvers = {
     me: async (parent, args, context) => {
       if (!context.user) throw new Error("Not authenticated");
       return context.user;
+    },
+    searchProducts: async (_, { query }) => {
+      const [results] = await sequelize.query(
+        `
+    SELECT * FROM products
+    WHERE to_tsvector('english', name || ' ' || description)
+    @@ plainto_tsquery('english', :query)
+  `,
+        {
+          replacements: { query },
+          type: sequelize.QueryTypes.SELECT,
+        }
+      );
+
+      return results;
     },
   },
   Mutation: {

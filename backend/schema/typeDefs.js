@@ -36,12 +36,20 @@ const typeDefs = gql`
     created_at: String!
   }
 
+  type UserInfo {
+    id: ID!
+    phone_number: String!
+    address: String!
+    delivery_address: String!
+  }
+
   type Query {
     products: [Product]
     users: [User] # Admin only
     me: User # Get current logged-in user
     getVoucher(id: ID!): Voucher
     listVouchers: [Voucher!]!
+    getUserInfo(id: ID!): UserInfo
   }
   type Mutation {
     # Product-related (later you can add mutations like addProduct, updateProduct)
