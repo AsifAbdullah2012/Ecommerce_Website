@@ -40,3 +40,15 @@ export const GET_USER_INFO = gql`
     }
   }
 `;
+
+export const SEARCH_PRODUCTS_QUERY = gql`
+  query SearchProducts($query: String!) {
+    searchProducts(query: $query) {
+      id
+      name
+      description
+      price
+      image_url
+    }
+  }
+`;

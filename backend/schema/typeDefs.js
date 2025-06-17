@@ -50,6 +50,7 @@ const typeDefs = gql`
     getVoucher(id: ID!): Voucher
     listVouchers: [Voucher!]!
     getUserInfo(id: ID!): UserInfo
+    searchProducts(query: String!): [Product]
   }
   type Mutation {
     # Product-related (later you can add mutations like addProduct, updateProduct)

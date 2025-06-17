@@ -1,7 +1,6 @@
 const pool = require("../db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { sequelize } = require("./db");
 
 const JWT_SECRET = "ALLLIFEMATTERS";
 
@@ -45,19 +44,13 @@ const resolvers = {
       return context.user;
     },
     searchProducts: async (_, { query }) => {
-      const [results] = await sequelize.query(
-        `
-    SELECT * FROM products
-    WHERE to_tsvector('english', name || ' ' || description)
-    @@ plainto_tsquery('english', :query)
-  `,
-        {
-          replacements: { query },
-          type: sequelize.QueryTypes.SELECT,
-        }
-      );
-
-      return results;
+      const sql = `
+        SELECT * FROM products
+        WHERE to_tsvector('english', name || ' ' || description)
+        @@ plainto_tsquery('english', $1)
+      `;
+      const result = await pool.query(sql, [query]);
+      return result.rows;
     },
   },
   Mutation: {

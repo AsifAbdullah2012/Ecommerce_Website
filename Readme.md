@@ -7,6 +7,10 @@ A modern e-commerce platform inspired by Amazon, built with:
 
 ---
 
+## 🖼️ Preview
+
+![E-Commerce Screenshot](./assets/frontpage.png)
+
 ## 🚀 Project Structure
 
 ```
